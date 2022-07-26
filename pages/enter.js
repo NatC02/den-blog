@@ -131,6 +131,8 @@ function UsernameForm() {
             Choose
           </button>
 
+          <UsernameMessage username={formValue} isValid={isValid} loading={loading} />
+
           <h3>Debug Status:</h3>
           <div>
             Username: {formValue}
