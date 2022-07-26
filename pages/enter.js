@@ -35,3 +35,12 @@ function SignInButton() {
     </button>
   );
 }
+
+// Sign out button
+function SignOutButton() {
+  return <button onClick={() => auth.signOut()}>Sign Out</button>;
+}
+
+function UsernameForm() {
+  return null;
+}
