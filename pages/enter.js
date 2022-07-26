@@ -1,4 +1,8 @@
 import { auth, googleAuthProvider } from "../lib/firebase";
+import { UserContext } from '../lib/context';
+
+import { useEffect, useState, useCallback, useContext } from 'react';
+import debounce from 'lodash.debounce';
 
 export default function EnterPage({}) {
   const { user, username } = useContext(UserContext);
@@ -141,3 +145,14 @@ function UsernameForm() {
   );
 }
 
+function UsernameMessage({ username, isValid, loading }) {
+  if (loading) {
+    return <p>Checking...</p>;
+  } else if (isValid) {
+    return <p className="text-success">{username} is available!</p>;
+  } else if (username && !isValid) {
+    return <p className="text-danger">That username is taken!</p>;
+  } else {
+    return <p></p>;
+  }
+}
