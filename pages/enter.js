@@ -44,9 +44,6 @@ function SignOutButton() {
   return <button onClick={() => auth.signOut()}>Sign Out</button>;
 }
 
-function UsernameForm() {
-  return null;
-}
 
 function UsernameForm() {
   const [formValue, setFormValue] = useState("");
@@ -143,3 +140,4 @@ function UsernameForm() {
     )
   );
 }
+
