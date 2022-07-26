@@ -65,7 +65,9 @@ function UsernameForm() {
     const batch = firestore.batch();
     // have both docs succeed of fail together
     batch.set(userDoc, { username: formValue, photoURL: user.photoURL, displayName: user.displayName });
-    
+    batch.set(usernameDoc, { uid: user.uid });
+
+
   };
 
 
