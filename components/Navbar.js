@@ -14,6 +14,23 @@ export default function Navbar() {
           <button className="btn-logo">ALL POSTS</button>
         </Link>
       </li>
+
+      {/* user is signed-in and has username */}
+      {username && (
+        <>
+          <li className="push-left">
+            <Link href="/admin">
+              <button className="btn-blue">Write Posts</button>
+            </Link>
+          </li>
+          <li>
+            {/* string interpolation for username for redirect */}
+            <Link href={`/${username}`}>
+              <img src={user?.photoURL} />
+            </Link>
+          </li>
+        </>
+      )}
     </ul>
   </nav>
   );
