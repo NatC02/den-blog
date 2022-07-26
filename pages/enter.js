@@ -53,6 +53,18 @@ function UsernameForm() {
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
 
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create refs for both documents
+    const userDoc = firestore.doc(`users/${user.uid}`);
+    const usernameDoc = firestore.doc(`usernames/${formValue}`);
+
+   
+  };
+
+
   const onChange = (e) => {
     // Force form value typed in form to match correct format
     const val = e.target.value.toLowerCase();
@@ -80,6 +92,7 @@ function UsernameForm() {
   
   // Hit the database for username match after each debounced change
   // useCallback is required for debounce to work
+  // userCallback is a memoized version of checkUsername, so it will not re-run on every change
   const checkUsername = useCallback(
     debounce(async (username) => {
       if (username.length >= 3) {
