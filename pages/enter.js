@@ -1,8 +1,5 @@
 import { auth, googleAuthProvider } from '../lib/firebase';
 
-import { useContext } from 'react';
-import { UserContext } from '../lib/context';
-
 export default function EnterPage({ }) {
 
   const { user, username } = useContext(UserContext)
@@ -46,4 +43,12 @@ function SignOutButton() {
 
 function UsernameForm() {
   return null;
+}
+
+function UsernameForm() {
+  const [formValue, setFormValue] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+ 
 }
