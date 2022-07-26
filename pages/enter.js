@@ -73,6 +73,13 @@ function UsernameForm() {
     }
   };
 
+    // if username changes, check if it is valid
+    useEffect(() => {
+      checkUsername(formValue);
+    }, [formValue]);
+  
+  
+
   return (
     !username && (
       <section>
