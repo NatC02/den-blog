@@ -67,7 +67,7 @@ function UsernameForm() {
     batch.set(userDoc, { username: formValue, photoURL: user.photoURL, displayName: user.displayName });
     batch.set(usernameDoc, { uid: user.uid });
 
-
+    await batch.commit();
   };
 
 
