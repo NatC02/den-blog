@@ -1,10 +1,13 @@
 import Link from 'next/link';
 
+import { useContext } from 'react';
+import { UserContext } from '../lib/context';
+
 // navbar
 export default function Navbar() {
-//   temp state to be updates with auth state from firestore
-  const user = null;
-  const username = null;
+
+  // UI will re-render automatically when user state changes
+const { user, username } = useContext(UserContext)
 
   return (
     <nav className="navbar">
