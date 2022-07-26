@@ -4,7 +4,7 @@ import { UserContext } from "../lib/context";
 import { useEffect, useState, useCallback, useContext } from "react";
 import debounce from "lodash.debounce";
 
-export default function EnterPage({}) {
+export default function Enter({props}) {
   const { user, username } = useContext(UserContext);
 
   // 1. user signed out displaying <SignInButton />
@@ -52,6 +52,8 @@ function UsernameForm() {
   const [formValue, setFormValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { user, username } = useContext(UserContext);
 
   const onSubmit = async (e) => {
     e.preventDefault();
