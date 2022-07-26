@@ -70,6 +70,14 @@ function UsernameForm() {
             Choose
           </button>
 
+          <h3>Debug Status:</h3>
+          <div>
+            Username: {formValue}
+            <br />
+            Loading: {loading.toString()}
+            <br />
+            Username Valid: {isValid.toString()}
+          </div>
         </form>
       </section>
     )
