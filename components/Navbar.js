@@ -7,5 +7,14 @@ export default function Navbar() {
   const username = null;
 
   return (
+    <nav className="navbar">
+    <ul>
+      <li>
+        <Link href="/">
+          <button className="btn-logo">ALL POSTS</button>
+        </Link>
+      </li>
+    </ul>
+  </nav>
   );
 }
