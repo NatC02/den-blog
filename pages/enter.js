@@ -53,6 +53,12 @@ function UsernameForm() {
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const onChange = (e) => {
+    // Force form value typed in form to match correct format
+    const val = e.target.value.toLowerCase();
+
+  };
+
   return (
     !username && (
       <section>
