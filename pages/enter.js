@@ -1,8 +1,8 @@
-import { auth, googleAuthProvider } from "../lib/firebase";
-import { UserContext } from '../lib/context';
+import { auth, firestore, googleAuthProvider } from "../lib/firebase";
+import { UserContext } from "../lib/context";
 
-import { useEffect, useState, useCallback, useContext } from 'react';
-import debounce from 'lodash.debounce';
+import { useEffect, useState, useCallback, useContext } from "react";
+import debounce from "lodash.debounce";
 
 export default function EnterPage({}) {
   const { user, username } = useContext(UserContext);
@@ -48,12 +48,10 @@ function SignOutButton() {
   return <button onClick={() => auth.signOut()}>Sign Out</button>;
 }
 
-
 function UsernameForm() {
   const [formValue, setFormValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -65,12 +63,15 @@ function UsernameForm() {
     // Commit both docs together as a batch write.
     const batch = firestore.batch();
     // have both docs succeed of fail together
-    batch.set(userDoc, { username: formValue, photoURL: user.photoURL, displayName: user.displayName });
+    batch.set(userDoc, {
+      username: formValue,
+      photoURL: user.photoURL,
+      displayName: user.displayName,
+    });
     batch.set(usernameDoc, { uid: user.uid });
 
     await batch.commit();
   };
-
 
   const onChange = (e) => {
     // Force form value typed in form to match correct format
@@ -92,11 +93,11 @@ function UsernameForm() {
     }
   };
 
-    // if username changes, check if it is valid
-    useEffect(() => {
-      checkUsername(formValue);
-    }, [formValue]);
-  
+  // if username changes, check if it is valid
+  useEffect(() => {
+    checkUsername(formValue);
+  }, [formValue]);
+
   // Hit the database for username match after each debounced change
   // useCallback is required for debounce to work
   // userCallback is a memoized version of checkUsername, so it will not re-run on every change
@@ -105,14 +106,13 @@ function UsernameForm() {
       if (username.length >= 3) {
         const ref = firestore.doc(`usernames/${username}`);
         const { exists } = await ref.get();
-        console.log('Firestore read executed!');
+        console.log("Firestore read executed!");
         setIsValid(!exists);
         setLoading(false);
       }
     }, 500),
     []
   );
-  
 
   return (
     !username && (
@@ -131,7 +131,11 @@ function UsernameForm() {
             Choose
           </button>
 
-          <UsernameMessage username={formValue} isValid={isValid} loading={loading} />
+          <UsernameMessage
+            username={formValue}
+            isValid={isValid}
+            loading={loading}
+          />
 
           <h3>Debug Status:</h3>
           <div>
