@@ -1,8 +1,7 @@
-import { auth, googleAuthProvider } from '../lib/firebase';
+import { auth, googleAuthProvider } from "../lib/firebase";
 
-export default function EnterPage({ }) {
-
-  const { user, username } = useContext(UserContext)
+export default function EnterPage({}) {
+  const { user, username } = useContext(UserContext);
 
   // 1. user signed out displaying <SignInButton />
   // 2. user signed in, but missing username, then <UsernameForm />
@@ -10,11 +9,15 @@ export default function EnterPage({ }) {
   return (
     <main>
       {/* ternary operator for UI logic based on username state */}
-      {user ? 
-        !username ? <UsernameForm /> : <SignOutButton /> 
-        : 
+      {user ? (
+        !username ? (
+          <UsernameForm />
+        ) : (
+          <SignOutButton />
+        )
+      ) : (
         <SignInButton />
-      }
+      )}
     </main>
   );
 }
@@ -24,14 +27,14 @@ function SignInButton() {
   const signInWithGoogle = async () => {
     try {
       await auth.signInWithPopup(googleAuthProvider);
-      } catch (err) {
+    } catch (err) {
       console.log(err);
-      }
+    }
   };
 
   return (
     <button className="btn-google" onClick={signInWithGoogle}>
-      <img src={'/google.png'} /> Sign in with Google
+      <img src={"/google.png"} /> Sign in with Google
     </button>
   );
 }
@@ -46,9 +49,29 @@ function UsernameForm() {
 }
 
 function UsernameForm() {
-  const [formValue, setFormValue] = useState('');
+  const [formValue, setFormValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
 
- 
+  return (
+    !username && (
+      <section>
+        <h3>Choose Username</h3>
+        {/* controlled input by checking the value of form state */}
+        <form onSubmit={onSubmit}>
+          <input
+            name="username"
+            placeholder="username"
+            value={formValue}
+            onChange={onChange}
+          />
+
+          <button type="submit" className="btn-green" disabled={!isValid}>
+            Choose
+          </button>
+
+        </form>
+      </section>
+    )
+  );
 }
