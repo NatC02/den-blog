@@ -27,6 +27,28 @@ export async function getStaticProps({ params }) {
   };
 }
 
+export async function getStaticPaths() {
+  // Improve my using Admin SDK to select empty docs
+  const snapshot = await firestore.collectionGroup('posts').get();
+
+  const paths = snapshot.docs.map((doc) => {
+    const { slug, username } = doc.data();
+    return {
+      params: { username, slug },
+    };
+  });
+
+  return {
+    // This is the only accepted format:
+    // paths: [
+    //   { params: { username, slug }}
+    // ],
+    paths,
+    // when user reaches a page that doesn't exist, then use next's server-side fallback 
+    fallback: 'blocking',
+  };
+}
+
 export default function Post(props) {
 
   return (
