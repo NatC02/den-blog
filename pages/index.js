@@ -4,13 +4,30 @@ import styles from '../styles/Home.module.css'
 
 import toast from "react-hot-toast"
 
-export default function Home() {
+// # of posts to grab for each paginated batch on firebase
+// its the max # of posts to query per page
+const LIMIT = 1;
+
+  export async function getServerSideProps(context) {
+    const postsQuery = firestore
+      // get collection no matter where it is located, it could be after a user's uid
+      .collectionGroup('posts')
+      .where('published', '==', true)
+      .orderBy('createdAt', 'desc')
+      .limit(LIMIT);
+  
+    const posts = (await postsQuery.get()).docs.map(postToJSON);
+  
+    return {
+      props: { posts }, // will be passed to the page component as props
+    };
+  }
+
+
+export default function Home(props) {
   return (
-    <div>
-      <h1>Home, Welcome</h1>
-      <button onClick={() => toast.success('Testing some toast msg')}>
-        Toast Test 
-      </button>
-    </div>
+    <main>
+
+    </main>
   )
 }
