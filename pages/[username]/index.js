@@ -4,6 +4,8 @@ import PostFeed from '../../components/PostFeed';
 export async function getServerSideProps({ query }) {
   const { username } = query;
 
+  const userDoc = await getUserWithUsername(username);
+
   return {
     props: { user, posts }, // these objects will be passed to the pages component (as props)
   };
