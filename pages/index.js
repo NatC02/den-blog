@@ -3,6 +3,7 @@ import Loader from '../components/Loader';
 import { firestore, fromMillis, postToJSON } from '../lib/firebase';
 
 import { useState } from 'react';
+
 // # of posts to grab for each paginated batch on firebase
 // its the max # of posts to query per page
 const LIMIT = 1;
