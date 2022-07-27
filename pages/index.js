@@ -28,6 +28,33 @@ export default function Home(props) {
 
   const [postsEnd, setPostsEnd] = useState(false);
 
+  const getMorePosts = async () => {
+    setLoading(true);
+    // get last post in the array to run paginated query
+    const last = posts[posts.length - 1];
+
+    // if createdAt value is a timestamp, convert to date, otherwise use date
+    const cursor = typeof last.createdAt === 'number' ? fromMillis(last.createdAt) : last.createdAt;
+
+    const query = firestore
+      .collectionGroup('posts')
+      .where('published', '==', true)
+      .orderBy('createdAt', 'desc')
+      .startAfter(cursor)
+      .limit(LIMIT);
+
+
+    const newPosts = (await query.get()).docs.map((doc) => doc.data());
+
+  // update post to existing list of posts
+    setPosts(posts.concat(newPosts));
+    setLoading(false);
+
+    if (newPosts.length < LIMIT) {
+      setPostsEnd(true);
+    }
+  };
+
   return (
     <main>
       <PostFeed posts={posts} />
