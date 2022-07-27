@@ -33,6 +33,7 @@ export default function Home(props) {
     <main>
       <PostFeed posts={posts} />
 
+      {/* if post is not loading or not at the end, then show a button to load more posts */}
       {!loading && !postsEnd && (
         <button onClick={getMorePosts}>Load more</button>
       )}
