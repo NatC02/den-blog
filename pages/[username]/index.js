@@ -1,6 +1,6 @@
 import UserProfile from '../../components/UserProfile';
 import PostFeed from '../../components/PostFeed';
-import { getUserWithUsername } from '../../lib/firebase';
+import { getUserWithUsername, postToJSON } from '../../lib/firebase';
 
 export async function getServerSideProps({ query }) {
   const { username } = query;
@@ -21,7 +21,7 @@ export async function getServerSideProps({ query }) {
       .orderBy('createdAt', 'desc')
       .limit(5);
       // get the posts and map each document to document data
-      // needs to be serializable
+      // needs to be in milliseconds
     posts = (await postsQuery.get()).docs.map(postToJSON);
   }
 
