@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+export default function PostFeed({ posts, admin }) {
+    return posts ? posts.map((post) => <PostItem post={post} key={post.slug} admin={admin} />) : null;
+  }
+
 function PostItem({ post, admin = false }) {
   // Naive method to calc word count in each post and the read time
   const wordCount = post?.content.trim().split(/\s+/g).length;
