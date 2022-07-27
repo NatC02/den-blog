@@ -1,4 +1,7 @@
-import { getUserWithUsername, postToJSON } from '../../lib/firebase';
+import styles from '../../styles/Post.module.css';
+import PostContent from '../../components/PostContent';
+import { firestore, getUserWithUsername, postToJSON } from '../../lib/firebase';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 
 // fetch data at build time to pre-render the page (caching) 
 export async function getStaticProps({ params }) {
@@ -53,7 +56,7 @@ export async function getStaticPaths() {
 export default function Post(props) {
 
   return (
-    <main>
+    <main className={styles.container}>
 
     </main>
   );
