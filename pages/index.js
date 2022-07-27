@@ -1,9 +1,8 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import PostFeed from '../components/PostFeed';
+import Loader from '../components/Loader';
+import { firestore, fromMillis, postToJSON } from '../lib/firebase';
 
-import toast from "react-hot-toast";
-
+import { useState } from 'react';
 // # of posts to grab for each paginated batch on firebase
 // its the max # of posts to query per page
 const LIMIT = 1;
