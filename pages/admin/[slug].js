@@ -5,6 +5,8 @@ import { firestore, auth, serverTimestamp } from '../../lib/firebase';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
+import ImageUploader from '../../components/ImageUploader';
+
 import { useDocumentData, useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 // treat a form like react-hook state
 import { useForm } from 'react-hook-form';
@@ -89,6 +91,8 @@ function PostForm({ defaultValues, postRef, preview }) {
       )}
 
       <div className={preview ? styles.hidden : styles.controls}>
+
+        <ImageUploader/>
         
         {/* include text area and validate with all of the other forms --> ref attribute */}
         <textarea name="content" ref={register({
