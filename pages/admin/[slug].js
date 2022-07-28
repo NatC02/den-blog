@@ -59,7 +59,10 @@ function PostManager() {
 }
 
 function PostForm({ defaultValues, postRef, preview }) {
-  const { register, handleSubmit, reset, watch } = useForm({ defaultValues, mode: 'onChange' });
+  const { register, handleSubmit, reset, watch, formState, errors } = useForm({ defaultValues, mode: 'onChange' });
+
+  // isDirty --> user has changed the form
+  const { isValid, isDirty } = formState;
 
   const updatePost = async ({ content, published }) => {
     // get content, published from form and update post to firestore
@@ -88,14 +91,23 @@ function PostForm({ defaultValues, postRef, preview }) {
       <div className={preview ? styles.hidden : styles.controls}>
         
         {/* include text area and validate with all of the other forms --> ref attribute */}
-        <textarea name="content" ref={register}></textarea>
+        <textarea name="content" ref={register({
+            // properties with validation rules 
+            maxLength: { value: 10000, message: 'content is too long' },
+            minLength: { value: 10, message: 'content is too short' },
+            required: { value: true, message: 'content is required'}
+          })}>
+      </textarea>
+      
+      {/*  */}
+      {errors.content && <p className="text-danger">{errors.content.message}</p>}
 
         <fieldset>
           <input className={styles.checkbox} name="published" type="checkbox" ref={register} />
           <label>Published</label>
         </fieldset>
 
-        <button type="submit" className="btn-green">
+        <button type="submit" className="btn-green" disabled={!isDirty || !isValid}>
           Save Changes
         </button>
       </div>
