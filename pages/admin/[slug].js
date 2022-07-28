@@ -43,6 +43,15 @@ function PostManager() {
             {/* Custom post form states to send to firestore */}
             <PostForm postRef={postRef} defaultValues={post} preview={preview} />
           </section>
+
+          <aside>
+          <h3>Tools</h3>
+          {/* change preview value to opposite of current state */}
+            <button onClick={() => setPreview(!preview)}>{preview ? 'Edit' : 'Preview'}</button>
+            <Link href={`/${post.username}/${post.slug}`}>
+              <button className="btn-blue">Live view</button>
+            </Link>
+          </aside>
         </>
       )}
     </main>
