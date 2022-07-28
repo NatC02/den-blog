@@ -48,3 +48,48 @@ function PostManager() {
     </main>
   );
 }
+
+function PostForm({ defaultValues, postRef, preview }) {
+  const { register, handleSubmit, reset, watch } = useForm({ defaultValues, mode: 'onChange' });
+
+  const updatePost = async ({ content, published }) => {
+    // get content, published from form and update post to firestore
+    await postRef.update({
+      content,
+      published,
+      updatedAt: serverTimestamp(),
+    });
+
+    // this resets the validation state
+    reset({ content, published });
+
+    toast.success('Post updated successfully!')
+  };
+
+  return (
+    // handle submit for easier submit by not explicitly declaring preventDefault()
+    <form onSubmit={handleSubmit(updatePost)}>
+      {preview && (
+        <div className="card">
+          {/* watch function treats preview like state to update whenever the form changes */}
+          <ReactMarkdown>{watch('content')}</ReactMarkdown>
+        </div>
+      )}
+
+      <div className={preview ? styles.hidden : styles.controls}>
+        
+        {/* include text area and validate with all of the other forms --> ref attribute */}
+        <textarea name="content" ref={register}></textarea>
+
+        <fieldset>
+          <input className={styles.checkbox} name="published" type="checkbox" ref={register} />
+          <label>Published</label>
+        </fieldset>
+
+        <button type="submit" className="btn-green">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  );
+}
