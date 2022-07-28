@@ -3,6 +3,11 @@ import PostContent from "../../components/PostContent";
 import { firestore, getUserWithUsername, postToJSON } from "../../lib/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
+// HeartButton implementation
+import HeartButton from "../../components/HeartButton";
+import AuthCheck from "../../components/AuthCheck";
+import Link from "next/link";
+
 // fetch data at build time to pre-render the page (caching)
 export async function getStaticProps({ params }) {
   // get user with username from url params
@@ -56,7 +61,7 @@ export async function getStaticPaths() {
 export default function Post(props) {
   // make ref to database using path from props
   const postRef = firestore.doc(props.path);
-  // useDocumentData hook to get real-time feed of data (this costs me more money) two reads 
+  // useDocumentData hook to get real-time feed of data (this costs me more money) two reads
   const [realtimePost] = useDocumentData(postRef);
 
   // props post wont care about the source of the data, it will only care about the data
@@ -74,6 +79,16 @@ export default function Post(props) {
         <p>
           <strong>{post.heartCount || 0} 🤍</strong>
         </p>
+
+        <AuthCheck
+          fallback={
+            <Link href="/enter">
+              <button>Sign Up</button>
+            </Link>
+          }
+        >
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
       </aside>
     </main>
   );
